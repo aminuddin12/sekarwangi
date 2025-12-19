@@ -1,0 +1,19 @@
+{
+    "welcome_message": "Selamat Datang di Sekarwangi",
+    "login_title": "Masuk ke Akun Anda",
+    "email_label": "Alamat Email",
+    "password_label": "Kata Sandi",
+    "remember_me": "Ingat Saya",
+    "login_button": "Masuk",
+    "register_link": "Belum punya akun? Daftar",
+    "dashboard_title": "Dasbor",
+    "settings_title": "Pengaturan",
+    "profile_title": "Profil Pengguna",
+    "save_button": "Simpan Perubahan",
+    "cancel_button": "Batal",
+    "logout_button": "Keluar",
+    "search_placeholder": "Cari sesuatu...",
+    "no_data_found": "Data tidak ditemukan",
+    "success_message": "Berhasil disimpan!",
+    "error_message": "Terjadi kesalahan."
+}
