@@ -14,8 +14,24 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
+/**
+ * @method bool hasPermissionTo($permission, $guardName = null)
+ * @method bool hasRole($roles, $guardName = null)
+ * @method bool hasAnyRole($roles, $guardName = null)
+ * @method bool hasAllRoles($roles, $guardName = null)
+ * @method bool hasAnyPermission($permissions)
+ * @method \Illuminate\Database\Eloquent\Collection getPermissionsViaRoles()
+ * @method \Illuminate\Database\Eloquent\Collection getAllPermissions()
+ * @method $this assignRole(...$roles)
+ * @method $this removeRole($role)
+ * @method $this syncRoles(...$roles)
+ * @method $this givePermissionTo(...$permissions)
+ * @method $this revokePermissionTo($permission)
+ * @method $this syncPermissions(...$permissions)
+ */
 class User extends Authenticatable implements MustVerifyEmail
 {
+    // HasRoles wajib ada untuk Spatie (hasPermissionTo/hasRole)
     use HasFactory, Notifiable, TwoFactorAuthenticatable, HasRoles, SoftDeletes;
 
     protected $fillable = [
@@ -88,7 +104,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(InventoryLoan::class, 'borrower_id');
     }
 
-    // Log aktivitas inventaris yang dilakukan user ini
     public function inventoryLogs(): HasMany
     {
         return $this->hasMany(InventoryLog::class);
@@ -137,13 +152,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(PostComment::class);
     }
 
-    // Halaman yang dibuat user
     public function pages(): HasMany
     {
         return $this->hasMany(Page::class, 'author_id');
     }
 
-    // Revisi halaman yang dilakukan user
     public function pageRevisions(): HasMany
     {
         return $this->hasMany(PageRevision::class);

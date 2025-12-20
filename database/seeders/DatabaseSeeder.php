@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,15 +11,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $this->call([
+            // 1. Core Access (Wajib duluan)
+            RolePermissionSeeder::class,
+            UserSeeder::class,
 
-        User::firstOrCreate(
-            ['email' => 'test@example.com'],
-            [
-                'name' => 'Test User',
-                'password' => 'password',
-                'email_verified_at' => now(),
-            ]
-        );
+            // 2. System Config
+            SystemSettingSeeder::class,
+            LanguageSeeder::class,
+
+            // 3. Master Data
+            FinanceSeeder::class,
+            InventorySeeder::class,
+
+            // 4. Navigation
+            MenuSeeder::class,
+        ]);
     }
 }
