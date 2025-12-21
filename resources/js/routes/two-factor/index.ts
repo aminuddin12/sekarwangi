@@ -1,5 +1,85 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../wayfinder'
-import loginDf2c2a from './login'
+/**
+* @see \App\Http\Controllers\Settings\TwoFactorAuthenticationController::show
+* @see app/Http/Controllers/Settings/TwoFactorAuthenticationController.php:28
+* @route '/settings/two-factor'
+*/
+export const show = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: show.url(options),
+    method: 'get',
+})
+
+show.definition = {
+    methods: ["get","head"],
+    url: '/settings/two-factor',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\Settings\TwoFactorAuthenticationController::show
+* @see app/Http/Controllers/Settings/TwoFactorAuthenticationController.php:28
+* @route '/settings/two-factor'
+*/
+show.url = (options?: RouteQueryOptions) => {
+    return show.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\Settings\TwoFactorAuthenticationController::show
+* @see app/Http/Controllers/Settings/TwoFactorAuthenticationController.php:28
+* @route '/settings/two-factor'
+*/
+show.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: show.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\Settings\TwoFactorAuthenticationController::show
+* @see app/Http/Controllers/Settings/TwoFactorAuthenticationController.php:28
+* @route '/settings/two-factor'
+*/
+show.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: show.url(options),
+    method: 'head',
+})
+
+/**
+* @see \App\Http\Controllers\Settings\TwoFactorAuthenticationController::show
+* @see app/Http/Controllers/Settings/TwoFactorAuthenticationController.php:28
+* @route '/settings/two-factor'
+*/
+const showForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: show.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\Settings\TwoFactorAuthenticationController::show
+* @see app/Http/Controllers/Settings/TwoFactorAuthenticationController.php:28
+* @route '/settings/two-factor'
+*/
+showForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: show.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\Settings\TwoFactorAuthenticationController::show
+* @see app/Http/Controllers/Settings/TwoFactorAuthenticationController.php:28
+* @route '/settings/two-factor'
+*/
+showForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: show.url({
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'HEAD',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'get',
+})
+
+show.form = showForm
+
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorAuthenticatedSessionController::login
 * @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorAuthenticatedSessionController.php:41
@@ -136,62 +216,6 @@ enableForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => 
 })
 
 enable.form = enableForm
-
-/**
-* @see \Laravel\Fortify\Http\Controllers\ConfirmedTwoFactorAuthenticationController::confirm
-* @see vendor/laravel/fortify/src/Http/Controllers/ConfirmedTwoFactorAuthenticationController.php:19
-* @route '/user/confirmed-two-factor-authentication'
-*/
-export const confirm = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
-    url: confirm.url(options),
-    method: 'post',
-})
-
-confirm.definition = {
-    methods: ["post"],
-    url: '/user/confirmed-two-factor-authentication',
-} satisfies RouteDefinition<["post"]>
-
-/**
-* @see \Laravel\Fortify\Http\Controllers\ConfirmedTwoFactorAuthenticationController::confirm
-* @see vendor/laravel/fortify/src/Http/Controllers/ConfirmedTwoFactorAuthenticationController.php:19
-* @route '/user/confirmed-two-factor-authentication'
-*/
-confirm.url = (options?: RouteQueryOptions) => {
-    return confirm.definition.url + queryParams(options)
-}
-
-/**
-* @see \Laravel\Fortify\Http\Controllers\ConfirmedTwoFactorAuthenticationController::confirm
-* @see vendor/laravel/fortify/src/Http/Controllers/ConfirmedTwoFactorAuthenticationController.php:19
-* @route '/user/confirmed-two-factor-authentication'
-*/
-confirm.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
-    url: confirm.url(options),
-    method: 'post',
-})
-
-/**
-* @see \Laravel\Fortify\Http\Controllers\ConfirmedTwoFactorAuthenticationController::confirm
-* @see vendor/laravel/fortify/src/Http/Controllers/ConfirmedTwoFactorAuthenticationController.php:19
-* @route '/user/confirmed-two-factor-authentication'
-*/
-const confirmForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-    action: confirm.url(options),
-    method: 'post',
-})
-
-/**
-* @see \Laravel\Fortify\Http\Controllers\ConfirmedTwoFactorAuthenticationController::confirm
-* @see vendor/laravel/fortify/src/Http/Controllers/ConfirmedTwoFactorAuthenticationController.php:19
-* @route '/user/confirmed-two-factor-authentication'
-*/
-confirmForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-    action: confirm.url(options),
-    method: 'post',
-})
-
-confirm.form = confirmForm
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorAuthenticationController::disable
@@ -503,152 +527,70 @@ recoveryCodesForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get
 recoveryCodes.form = recoveryCodesForm
 
 /**
-* @see \Laravel\Fortify\Http\Controllers\RecoveryCodeController::regenerateRecoveryCodes
-* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:38
-* @route '/user/two-factor-recovery-codes'
+* @see \Laravel\Fortify\Http\Controllers\ConfirmedTwoFactorAuthenticationController::confirm
+* @see vendor/laravel/fortify/src/Http/Controllers/ConfirmedTwoFactorAuthenticationController.php:19
+* @route '/user/confirmed-two-factor-authentication'
 */
-export const regenerateRecoveryCodes = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
-    url: regenerateRecoveryCodes.url(options),
+export const confirm = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: confirm.url(options),
     method: 'post',
 })
 
-regenerateRecoveryCodes.definition = {
+confirm.definition = {
     methods: ["post"],
-    url: '/user/two-factor-recovery-codes',
+    url: '/user/confirmed-two-factor-authentication',
 } satisfies RouteDefinition<["post"]>
 
 /**
-* @see \Laravel\Fortify\Http\Controllers\RecoveryCodeController::regenerateRecoveryCodes
-* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:38
-* @route '/user/two-factor-recovery-codes'
+* @see \Laravel\Fortify\Http\Controllers\ConfirmedTwoFactorAuthenticationController::confirm
+* @see vendor/laravel/fortify/src/Http/Controllers/ConfirmedTwoFactorAuthenticationController.php:19
+* @route '/user/confirmed-two-factor-authentication'
 */
-regenerateRecoveryCodes.url = (options?: RouteQueryOptions) => {
-    return regenerateRecoveryCodes.definition.url + queryParams(options)
+confirm.url = (options?: RouteQueryOptions) => {
+    return confirm.definition.url + queryParams(options)
 }
 
 /**
-* @see \Laravel\Fortify\Http\Controllers\RecoveryCodeController::regenerateRecoveryCodes
-* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:38
-* @route '/user/two-factor-recovery-codes'
+* @see \Laravel\Fortify\Http\Controllers\ConfirmedTwoFactorAuthenticationController::confirm
+* @see vendor/laravel/fortify/src/Http/Controllers/ConfirmedTwoFactorAuthenticationController.php:19
+* @route '/user/confirmed-two-factor-authentication'
 */
-regenerateRecoveryCodes.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
-    url: regenerateRecoveryCodes.url(options),
+confirm.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: confirm.url(options),
     method: 'post',
 })
 
 /**
-* @see \Laravel\Fortify\Http\Controllers\RecoveryCodeController::regenerateRecoveryCodes
-* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:38
-* @route '/user/two-factor-recovery-codes'
+* @see \Laravel\Fortify\Http\Controllers\ConfirmedTwoFactorAuthenticationController::confirm
+* @see vendor/laravel/fortify/src/Http/Controllers/ConfirmedTwoFactorAuthenticationController.php:19
+* @route '/user/confirmed-two-factor-authentication'
 */
-const regenerateRecoveryCodesForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-    action: regenerateRecoveryCodes.url(options),
+const confirmForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    action: confirm.url(options),
     method: 'post',
 })
 
 /**
-* @see \Laravel\Fortify\Http\Controllers\RecoveryCodeController::regenerateRecoveryCodes
-* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:38
-* @route '/user/two-factor-recovery-codes'
+* @see \Laravel\Fortify\Http\Controllers\ConfirmedTwoFactorAuthenticationController::confirm
+* @see vendor/laravel/fortify/src/Http/Controllers/ConfirmedTwoFactorAuthenticationController.php:19
+* @route '/user/confirmed-two-factor-authentication'
 */
-regenerateRecoveryCodesForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-    action: regenerateRecoveryCodes.url(options),
+confirmForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    action: confirm.url(options),
     method: 'post',
 })
 
-regenerateRecoveryCodes.form = regenerateRecoveryCodesForm
-
-/**
-* @see \App\Http\Controllers\Settings\TwoFactorAuthenticationController::show
-* @see app/Http/Controllers/Settings/TwoFactorAuthenticationController.php:28
-* @route '/settings/two-factor'
-*/
-export const show = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: show.url(options),
-    method: 'get',
-})
-
-show.definition = {
-    methods: ["get","head"],
-    url: '/settings/two-factor',
-} satisfies RouteDefinition<["get","head"]>
-
-/**
-* @see \App\Http\Controllers\Settings\TwoFactorAuthenticationController::show
-* @see app/Http/Controllers/Settings/TwoFactorAuthenticationController.php:28
-* @route '/settings/two-factor'
-*/
-show.url = (options?: RouteQueryOptions) => {
-    return show.definition.url + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\Settings\TwoFactorAuthenticationController::show
-* @see app/Http/Controllers/Settings/TwoFactorAuthenticationController.php:28
-* @route '/settings/two-factor'
-*/
-show.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: show.url(options),
-    method: 'get',
-})
-
-/**
-* @see \App\Http\Controllers\Settings\TwoFactorAuthenticationController::show
-* @see app/Http/Controllers/Settings/TwoFactorAuthenticationController.php:28
-* @route '/settings/two-factor'
-*/
-show.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
-    url: show.url(options),
-    method: 'head',
-})
-
-/**
-* @see \App\Http\Controllers\Settings\TwoFactorAuthenticationController::show
-* @see app/Http/Controllers/Settings/TwoFactorAuthenticationController.php:28
-* @route '/settings/two-factor'
-*/
-const showForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-    action: show.url(options),
-    method: 'get',
-})
-
-/**
-* @see \App\Http\Controllers\Settings\TwoFactorAuthenticationController::show
-* @see app/Http/Controllers/Settings/TwoFactorAuthenticationController.php:28
-* @route '/settings/two-factor'
-*/
-showForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-    action: show.url(options),
-    method: 'get',
-})
-
-/**
-* @see \App\Http\Controllers\Settings\TwoFactorAuthenticationController::show
-* @see app/Http/Controllers/Settings/TwoFactorAuthenticationController.php:28
-* @route '/settings/two-factor'
-*/
-showForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-    action: show.url({
-        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-            _method: 'HEAD',
-            ...(options?.query ?? options?.mergeQuery ?? {}),
-        }
-    }),
-    method: 'get',
-})
-
-show.form = showForm
+confirm.form = confirmForm
 
 const twoFactor = {
-    login: Object.assign(login, loginDf2c2a),
+    show: Object.assign(show, show),
+    login: Object.assign(login, login),
     enable: Object.assign(enable, enable),
-    confirm: Object.assign(confirm, confirm),
     disable: Object.assign(disable, disable),
     qrCode: Object.assign(qrCode, qrCode),
     secretKey: Object.assign(secretKey, secretKey),
     recoveryCodes: Object.assign(recoveryCodes, recoveryCodes),
-    regenerateRecoveryCodes: Object.assign(regenerateRecoveryCodes, regenerateRecoveryCodes),
-    show: Object.assign(show, show),
+    confirm: Object.assign(confirm, confirm),
 }
 
 export default twoFactor

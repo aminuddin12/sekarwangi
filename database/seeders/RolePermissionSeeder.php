@@ -153,6 +153,7 @@ class RolePermissionSeeder extends Seeder
             'view-divisions', 'create-divisions', 'edit-divisions', 'delete-divisions',
             'view-positions', 'create-positions', 'edit-positions', 'delete-positions',
             'view-badges', 'create-badges', 'edit-badges', 'delete-badges', 'assign-badges',
+            'view-attendance', 'view-leave-requests', 'approve-leaves', 'manage-holidays',
             'view-teams', 'create-teams', 'edit-teams',
 
             // --- FINANCE: ACCOUNTING (24) ---
@@ -228,6 +229,7 @@ class RolePermissionSeeder extends Seeder
             // --- COMMUNICATION (10) ---
             'view-chats', 'create-chat-groups', 'edit-chat-groups', 'delete-chat-groups',
             'send-broadcast-messages', 'moderate-chat', 'view-chat-reports',
+            'create-comments', 'view-public-posts',
             'manage-chat-settings',
 
             // --- SYSTEM & SETTINGS (20) ---

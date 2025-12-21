@@ -23,6 +23,8 @@ return Application::configure(basePath: dirname(__DIR__))
             Route::middleware(['api', SecureApiGateway::class, VerifyApiAccount::class])
                 ->prefix('api/v1')
                 ->group(base_path('routes/API/v1/api.php'));
+            Route::middleware('web')
+                ->group(base_path('routes/admin.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {

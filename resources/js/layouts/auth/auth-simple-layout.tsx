@@ -1,7 +1,8 @@
-import AppLogoIcon from '@/components/app-logo-icon';
-import { home } from '@/routes';
-import { Link } from '@inertiajs/react';
-import { type PropsWithChildren } from 'react';
+import AppLogoIcon from "@/components/app-logo-icon";
+import { home } from "@/routes";
+import { Link } from "@inertiajs/react";
+import { type PropsWithChildren } from "react";
+import Artwork from "./artwork";
 
 interface AuthLayoutProps {
     name?: string;
@@ -15,30 +16,32 @@ export default function AuthSimpleLayout({
     description,
 }: PropsWithChildren<AuthLayoutProps>) {
     return (
-        <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-6 md:p-10">
-            <div className="w-full max-w-sm">
-                <div className="flex flex-col gap-8">
-                    <div className="flex flex-col items-center gap-4">
-                        <Link
-                            href={home()}
-                            className="flex flex-col items-center gap-2 font-medium"
-                        >
-                            <div className="mb-1 flex h-9 w-9 items-center justify-center rounded-md">
-                                <AppLogoIcon className="size-9 fill-current text-[var(--foreground)] dark:text-white" />
+        <div className="min-h-svh w-full lg:grid lg:grid-cols-2">
+            {/* Left Side - Form Area */}
+            <div className="flex flex-col items-center justify-center p-6 md:p-10">
+                <div className="w-full max-w-sm space-y-8">
+                    {/* Mobile Header (Hanya muncul jika tidak di Login Page yang sudah punya header sendiri) */}
+                    <div className="flex flex-col items-center gap-2 text-center lg:hidden">
+                        <Link href={home()} className="flex items-center gap-2 font-medium">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+                                <AppLogoIcon className="size-6 fill-current text-white" />
                             </div>
-                            <span className="sr-only">{title}</span>
                         </Link>
-
-                        <div className="space-y-2 text-center">
-                            <h1 className="text-xl font-medium">{title}</h1>
-                            <p className="text-center text-sm text-muted-foreground">
-                                {description}
-                            </p>
-                        </div>
+                        {title && <h1 className="text-xl font-bold">{title}</h1>}
+                        {description && (
+                            <p className="text-sm text-muted-foreground">{description}</p>
+                        )}
                     </div>
-                    {children}
+
+                    {/* Main Content */}
+                    <div className="w-full">
+                        {children}
+                    </div>
                 </div>
             </div>
+
+            {/* Right Side - Artwork (Hidden on Mobile) */}
+            <Artwork />
         </div>
     );
 }

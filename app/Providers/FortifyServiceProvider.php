@@ -20,7 +20,9 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // PENTING: Kita matikan route bawaan Fortify agar tidak bentrok
+        // dengan route custom di routes/auth.php
+        Fortify::ignoreRoutes();
     }
 
     /**
@@ -47,9 +49,12 @@ class FortifyServiceProvider extends ServiceProvider
      */
     private function configureViews(): void
     {
-        Fortify::loginView(fn (Request $request) => Inertia::render('auth/login', [
-            'canResetPassword' => Features::enabled(Features::resetPasswords()),
-            'canRegister' => Features::enabled(Features::registration()),
+        // CATATAN: View Login & Register DIHAPUS dari sini karena
+        // sudah ditangani oleh LoginController@create dan RegisterController@create
+        // pada routes/auth.php menggunakan Inertia::render.
+
+        // View untuk Reset Password (tetap pakai Fortify logic)
+        Fortify::requestPasswordResetLinkView(fn (Request $request) => Inertia::render('auth/forgot-password', [
             'status' => $request->session()->get('status'),
         ]));
 
@@ -58,19 +63,16 @@ class FortifyServiceProvider extends ServiceProvider
             'token' => $request->route('token'),
         ]));
 
-        Fortify::requestPasswordResetLinkView(fn (Request $request) => Inertia::render('auth/forgot-password', [
-            'status' => $request->session()->get('status'),
-        ]));
-
+        // View untuk Verifikasi Email
         Fortify::verifyEmailView(fn (Request $request) => Inertia::render('auth/verify-email', [
             'status' => $request->session()->get('status'),
         ]));
 
-        Fortify::registerView(fn () => Inertia::render('auth/register'));
-
-        Fortify::twoFactorChallengeView(fn () => Inertia::render('auth/two-factor-challenge'));
-
+        // View untuk Konfirmasi Password (saat aksi sensitif)
         Fortify::confirmPasswordView(fn () => Inertia::render('auth/confirm-password'));
+
+        // View untuk Two Factor Challenge
+        Fortify::twoFactorChallengeView(fn () => Inertia::render('auth/two-factor-challenge'));
     }
 
     /**
@@ -82,9 +84,9 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
 
+        // Rate limiter login bawaan Fortify (Opsional, karena LoginController kita punya logic sendiri)
         RateLimiter::for('login', function (Request $request) {
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
-
             return Limit::perMinute(5)->by($throttleKey);
         });
     }

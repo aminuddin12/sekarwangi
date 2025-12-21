@@ -6,6 +6,7 @@ use App\Models\UrlAuthenticated;
 use App\Models\UrlPublic;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Route;
 
 class UrlManager
 {
@@ -19,7 +20,8 @@ class UrlManager
         if (!$user) return [];
 
         // Cache Key unik per User ID dan Role-nya
-        $cacheKey = "sidebar_menu_{$user->id}_" . $user->roles->pluck('id')->implode('-');
+        // Kita gunakan key sederhana tanpa tags agar kompatibel dengan driver 'file'
+        $cacheKey = self::getMenuCacheKey($user->id);
 
         return Cache::remember($cacheKey, 3600, function () use ($user) {
 
@@ -32,34 +34,56 @@ class UrlManager
                 ->orderBy('order')
                 ->get();
 
-            // 2. Filter berdasarkan Permission User
+            // 2. Filter & Transformasi URL
             return $menus->filter(function ($menu) use ($user) {
                 return self::userCanAccessMenu($user, $menu);
             })->map(function ($menu) use ($user) {
-                // Filter Children juga
+                // Resolve URL Parent
+                $menu->url = self::resolveUrl($menu->url);
+
+                // Filter & Resolve Children
                 $menu->children = $menu->children->filter(function ($child) use ($user) {
                     return self::userCanAccessMenu($user, $child);
-                });
+                })->map(function ($child) {
+                    $child->url = self::resolveUrl($child->url);
+                    return $child;
+                })->values(); // Reset array keys
+
                 return $menu;
-            });
+            })->values();
         });
     }
 
     /**
-     * Dapatkan Link Public (Footer/Header)
+     * Helper: Generate Cache Key
      */
-    public static function getPublicLinks(string $groupSlug)
+    private static function getMenuCacheKey(int $userId): string
     {
-        return Cache::remember("public_links_{$groupSlug}", 86400, function () use ($groupSlug) {
-            return UrlPublic::whereHas('group', function ($q) use ($groupSlug) {
-                    $q->where('slug', $groupSlug)->where('is_active', true);
-                })
-                ->where('is_active', true)
-                ->whereNull('parent_id')
-                ->with('children')
-                ->orderBy('order')
-                ->get();
-        });
+        return "sidebar_menu_{$userId}";
+    }
+
+    /**
+     * Helper: Ubah Nama Route jadi URL Asli
+     */
+    private static function resolveUrl(?string $url): string
+    {
+        if (empty($url) || $url === '#') return '#';
+
+        // Jika sudah URL absolut atau relative path
+        if (str_starts_with($url, 'http') || str_starts_with($url, '/')) {
+            return $url;
+        }
+
+        // Cek apakah ini nama route laravel
+        if (Route::has($url)) {
+            try {
+                return route($url);
+            } catch (\Exception $e) {
+                return $url;
+            }
+        }
+
+        return $url;
     }
 
     /**
@@ -67,25 +91,20 @@ class UrlManager
      */
     private static function userCanAccessMenu($user, $menu): bool
     {
-        // Jika menu terhubung ke permission, cek permission user
         if ($menu->permission_id && $menu->permission) {
-            // Super Admin bypass
             if ($user->hasRole('super-admin')) return true;
-
             return $user->hasPermissionTo($menu->permission->name);
         }
-
-        // Jika tidak ada permission khusus, anggap boleh (atau ubah logic jadi deny all)
         return true;
     }
 
     /**
-     * Bersihkan Cache Menu User (Panggil ini saat update role/menu)
+     * Bersihkan Cache Menu User
+     * Fix: Menggunakan forget() langsung alih-alih tags() agar kompatibel dengan semua cache driver
      */
     public static function clearMenuCache(int $userId): void
     {
-        // Karena key cache dinamis berdasarkan role, kita gunakan tag jika driver mendukung
-        // Atau clear global user cache pattern jika pakai Redis
-        // Untuk simpelnya di sini kita asumsikan logic clear spesifik
+        $key = self::getMenuCacheKey($userId);
+        Cache::forget($key);
     }
 }

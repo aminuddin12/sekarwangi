@@ -1,4 +1,6 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../wayfinder'
+import email from './email'
+import whatsapp from './whatsapp'
 /**
 * @see \Laravel\Fortify\Http\Controllers\EmailVerificationPromptController::notice
 * @see vendor/laravel/fortify/src/Http/Controllers/EmailVerificationPromptController.php:18
@@ -238,6 +240,8 @@ const verification = {
     notice: Object.assign(notice, notice),
     verify: Object.assign(verify, verify),
     send: Object.assign(send, send),
+    email: Object.assign(email, email),
+    whatsapp: Object.assign(whatsapp, whatsapp),
 }
 
 export default verification
