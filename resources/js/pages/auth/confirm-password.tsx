@@ -4,47 +4,55 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/auth-layout';
-import { store } from '@/routes/password/confirm';
-import { Form, Head } from '@inertiajs/react';
+// import { confirm } from '@/routes/password'; // Remove this failing import
+import { Head, useForm } from '@inertiajs/react';
+import { FormEvent } from 'react';
 
 export default function ConfirmPassword() {
+    const { data, setData, post, processing, errors, reset } = useForm({
+        password: '',
+    });
+
+    const submit = (e: FormEvent) => {
+        e.preventDefault();
+
+        // Use manual path instead of generated helper
+        post('/user/confirm-password', {
+            onFinish: () => reset(),
+        });
+    };
+
     return (
         <AuthLayout
-            title="Confirm your password"
+            title="Confirm Password"
             description="This is a secure area of the application. Please confirm your password before continuing."
         >
-            <Head title="Confirm password" />
+            <Head title="Confirm Password" />
 
-            <Form {...store.form()} resetOnSuccess={['password']}>
-                {({ processing, errors }) => (
-                    <div className="space-y-6">
-                        <div className="grid gap-2">
-                            <Label htmlFor="password">Password</Label>
-                            <Input
-                                id="password"
-                                type="password"
-                                name="password"
-                                placeholder="Password"
-                                autoComplete="current-password"
-                                autoFocus
-                            />
-
-                            <InputError message={errors.password} />
-                        </div>
-
-                        <div className="flex items-center">
-                            <Button
-                                className="w-full"
-                                disabled={processing}
-                                data-test="confirm-password-button"
-                            >
-                                {processing && <Spinner />}
-                                Confirm password
-                            </Button>
-                        </div>
+            <div className="w-full max-w-sm mx-auto">
+                <form onSubmit={submit} className="space-y-6">
+                    <div className="space-y-2">
+                        <Label htmlFor="password">Password</Label>
+                        <Input
+                            id="password"
+                            type="password"
+                            name="password"
+                            value={data.password}
+                            className="block w-full"
+                            autoFocus
+                            onChange={(e) => setData('password', e.target.value)}
+                        />
+                        <InputError message={errors.password} />
                     </div>
-                )}
-            </Form>
+
+                    <div className="flex items-center justify-end">
+                        <Button className="w-full" disabled={processing}>
+                            {processing && <Spinner className="mr-2" />}
+                            Confirm
+                        </Button>
+                    </div>
+                </form>
+            </div>
         </AuthLayout>
     );
 }

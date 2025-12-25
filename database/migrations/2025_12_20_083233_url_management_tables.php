@@ -33,6 +33,7 @@ return new class extends Migration
 
             $table->string('name'); // Nama Route (e.g., 'api.users.index')
             $table->string('url'); // Endpoint (e.g., '/api/v1/users')
+            $table->string('route')->nullable();
             $table->string('method')->default('GET'); // GET, POST, PUT, DELETE
 
             // Security: Spatie Permission Link (Nullable)
@@ -63,6 +64,7 @@ return new class extends Migration
 
             $table->string('name'); // Label Menu
             $table->string('url'); // Route Name atau Path
+            $table->string('route')->nullable();
             $table->string('icon')->nullable(); // Class icon (Lucide/FontAwesome)
             $table->string('badge')->nullable(); // Label notifikasi kecil (e.g., "New")
             $table->string('badge_color')->nullable(); // Warna badge

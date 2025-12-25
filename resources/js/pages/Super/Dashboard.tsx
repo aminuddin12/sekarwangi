@@ -3,6 +3,7 @@ import { Head } from '@inertiajs/react';
 import { Icon } from '@iconify/react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { type BreadcrumbItem } from '@/types';
 
 interface DashboardProps {
     stats: {
@@ -14,6 +15,7 @@ interface DashboardProps {
     recentLogs: any[];
 }
 
+
 export default function SuperDashboard({ stats, recentLogs }: DashboardProps) {
     // Helper format mata uang
     const formatCurrency = (amount: number) => {
@@ -24,8 +26,15 @@ export default function SuperDashboard({ stats, recentLogs }: DashboardProps) {
         }).format(amount);
     };
 
+    const breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: 'Dashboard',
+            href: '/super/dashboard',
+        },
+    ];
+
     return (
-        <AppSidebarLayout>
+        <AppSidebarLayout breadcrumbs={breadcrumbs}>
             <Head title="Super Admin Dashboard" />
 
             <div className="flex flex-col gap-6 p-6">

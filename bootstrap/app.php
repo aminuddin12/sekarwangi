@@ -43,6 +43,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
             'api.account' => VerifyApiAccount::class, // Cek API Key
             'api.secure' => SecureApiGateway::class, // Cek IP/Device & Rate Limit
+            'role.prefix' => \App\Http\Middleware\ValidateRolePrefix::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

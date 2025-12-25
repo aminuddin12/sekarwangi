@@ -92,11 +92,25 @@ class LoginController extends Controller
         return $this->redirectUserBasedOnRole($user);
     }
 
+    /**
+     * Helper: Redirect User ke Dashboard yang Tepat
+     */
     protected function redirectUserBasedOnRole(User $user)
     {
+        // Prioritas 1: Super Admin
+        // Karena route admin menggunakan prefix dinamis {panel_role},
+        // kita wajib menyertakan parameter tersebut.
         if ($user->hasRole('super-admin')) {
-            return redirect()->intended(route('super.dashboard'));
+            return redirect()->intended(route('super.dashboard', ['panel_role' => 'super-admin']));
         }
+
+        // Jika nanti Anda ingin role 'admin' atau 'manager' juga masuk ke panel yang sama:
+        // $role = $user->roles->first()?->name;
+        // if ($role && in_array($role, ['admin', 'finance-manager'])) {
+        //     return redirect()->intended(route('super.dashboard', ['panel_role' => $role]));
+        // }
+
+        // Default: Dashboard Member Biasa (User Area)
         return redirect()->intended(route('dashboard'));
     }
 

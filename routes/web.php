@@ -10,11 +10,7 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
-});
+Route::get('/system/error', [\App\Http\Controllers\System\ErrorPageController::class, 'show'])->name('system.error.show');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

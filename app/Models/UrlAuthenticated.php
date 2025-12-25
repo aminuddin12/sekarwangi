@@ -11,10 +11,10 @@ class UrlAuthenticated extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'url_authenticated'; // Explicit table name
+    protected $table = 'url_authenticated';
 
     protected $fillable = [
-        'group_id', 'parent_id', 'name', 'url', 'icon',
+        'group_id', 'parent_id', 'name', 'url','route', 'icon',
         'badge', 'badge_color', 'hint', 'order', 'permission_id',
         'is_active', 'created_by', 'updated_by'
     ];
