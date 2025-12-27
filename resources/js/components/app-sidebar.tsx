@@ -25,7 +25,7 @@ import {
 import { type NavItem } from '@/types';
 import { Icon } from '@iconify/react';
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, ChevronRight, Folder, LayoutGrid } from 'lucide-react';
+import { ChevronRight, LayoutGrid } from 'lucide-react';
 import { ComponentProps } from 'react';
 import AppLogo from './app-logo';
 
@@ -75,8 +75,8 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
     const hasMenu = sortedGroups.length > 0;
 
     const footerNavItems: NavItem[] = [
-        { title: 'Repository', href: 'https://github.com/aminuddin12/sekarwangi', icon: Folder },
-        { title: 'Documentation', href: 'https://laravel.com/docs/starter-kits#react', icon: BookOpen },
+        // { title: 'Repository', href: 'https://github.com/aminuddin12/sekarwangi', icon: Folder },
+        // { title: 'Documentation', href: 'https://laravel.com/docs/starter-kits#react', icon: BookOpen },
     ];
 
     return (

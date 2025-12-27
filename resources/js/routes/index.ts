@@ -1,6 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../wayfinder'
 /**
-* @see routes/web.php:7
+* @see \App\Http\Controllers\Public\HomeController::home
+* @see app/Http/Controllers/Public/HomeController.php:12
 * @route '/'
 */
 export const home = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -14,7 +15,8 @@ home.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see routes/web.php:7
+* @see \App\Http\Controllers\Public\HomeController::home
+* @see app/Http/Controllers/Public/HomeController.php:12
 * @route '/'
 */
 home.url = (options?: RouteQueryOptions) => {
@@ -22,7 +24,8 @@ home.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see routes/web.php:7
+* @see \App\Http\Controllers\Public\HomeController::home
+* @see app/Http/Controllers/Public/HomeController.php:12
 * @route '/'
 */
 home.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -31,7 +34,8 @@ home.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 
 /**
-* @see routes/web.php:7
+* @see \App\Http\Controllers\Public\HomeController::home
+* @see app/Http/Controllers/Public/HomeController.php:12
 * @route '/'
 */
 home.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -40,7 +44,8 @@ home.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
-* @see routes/web.php:7
+* @see \App\Http\Controllers\Public\HomeController::home
+* @see app/Http/Controllers/Public/HomeController.php:12
 * @route '/'
 */
 const homeForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -49,7 +54,8 @@ const homeForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 })
 
 /**
-* @see routes/web.php:7
+* @see \App\Http\Controllers\Public\HomeController::home
+* @see app/Http/Controllers/Public/HomeController.php:12
 * @route '/'
 */
 homeForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -58,7 +64,8 @@ homeForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 })
 
 /**
-* @see routes/web.php:7
+* @see \App\Http\Controllers\Public\HomeController::home
+* @see app/Http/Controllers/Public/HomeController.php:12
 * @route '/'
 */
 homeForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -72,6 +79,330 @@ homeForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 })
 
 home.form = homeForm
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::about
+* @see app/Http/Controllers/Public/OrganizationController.php:10
+* @route '/about'
+*/
+export const about = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: about.url(options),
+    method: 'get',
+})
+
+about.definition = {
+    methods: ["get","head"],
+    url: '/about',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::about
+* @see app/Http/Controllers/Public/OrganizationController.php:10
+* @route '/about'
+*/
+about.url = (options?: RouteQueryOptions) => {
+    return about.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::about
+* @see app/Http/Controllers/Public/OrganizationController.php:10
+* @route '/about'
+*/
+about.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: about.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::about
+* @see app/Http/Controllers/Public/OrganizationController.php:10
+* @route '/about'
+*/
+about.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: about.url(options),
+    method: 'head',
+})
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::about
+* @see app/Http/Controllers/Public/OrganizationController.php:10
+* @route '/about'
+*/
+const aboutForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: about.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::about
+* @see app/Http/Controllers/Public/OrganizationController.php:10
+* @route '/about'
+*/
+aboutForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: about.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::about
+* @see app/Http/Controllers/Public/OrganizationController.php:10
+* @route '/about'
+*/
+aboutForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: about.url({
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'HEAD',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'get',
+})
+
+about.form = aboutForm
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::visionMission
+* @see app/Http/Controllers/Public/OrganizationController.php:15
+* @route '/vision-mission'
+*/
+export const visionMission = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: visionMission.url(options),
+    method: 'get',
+})
+
+visionMission.definition = {
+    methods: ["get","head"],
+    url: '/vision-mission',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::visionMission
+* @see app/Http/Controllers/Public/OrganizationController.php:15
+* @route '/vision-mission'
+*/
+visionMission.url = (options?: RouteQueryOptions) => {
+    return visionMission.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::visionMission
+* @see app/Http/Controllers/Public/OrganizationController.php:15
+* @route '/vision-mission'
+*/
+visionMission.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: visionMission.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::visionMission
+* @see app/Http/Controllers/Public/OrganizationController.php:15
+* @route '/vision-mission'
+*/
+visionMission.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: visionMission.url(options),
+    method: 'head',
+})
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::visionMission
+* @see app/Http/Controllers/Public/OrganizationController.php:15
+* @route '/vision-mission'
+*/
+const visionMissionForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: visionMission.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::visionMission
+* @see app/Http/Controllers/Public/OrganizationController.php:15
+* @route '/vision-mission'
+*/
+visionMissionForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: visionMission.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::visionMission
+* @see app/Http/Controllers/Public/OrganizationController.php:15
+* @route '/vision-mission'
+*/
+visionMissionForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: visionMission.url({
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'HEAD',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'get',
+})
+
+visionMission.form = visionMissionForm
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::organization
+* @see app/Http/Controllers/Public/OrganizationController.php:20
+* @route '/organization'
+*/
+export const organization = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: organization.url(options),
+    method: 'get',
+})
+
+organization.definition = {
+    methods: ["get","head"],
+    url: '/organization',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::organization
+* @see app/Http/Controllers/Public/OrganizationController.php:20
+* @route '/organization'
+*/
+organization.url = (options?: RouteQueryOptions) => {
+    return organization.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::organization
+* @see app/Http/Controllers/Public/OrganizationController.php:20
+* @route '/organization'
+*/
+organization.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: organization.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::organization
+* @see app/Http/Controllers/Public/OrganizationController.php:20
+* @route '/organization'
+*/
+organization.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: organization.url(options),
+    method: 'head',
+})
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::organization
+* @see app/Http/Controllers/Public/OrganizationController.php:20
+* @route '/organization'
+*/
+const organizationForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: organization.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::organization
+* @see app/Http/Controllers/Public/OrganizationController.php:20
+* @route '/organization'
+*/
+organizationForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: organization.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::organization
+* @see app/Http/Controllers/Public/OrganizationController.php:20
+* @route '/organization'
+*/
+organizationForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: organization.url({
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'HEAD',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'get',
+})
+
+organization.form = organizationForm
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::legality
+* @see app/Http/Controllers/Public/OrganizationController.php:25
+* @route '/legality'
+*/
+export const legality = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: legality.url(options),
+    method: 'get',
+})
+
+legality.definition = {
+    methods: ["get","head"],
+    url: '/legality',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::legality
+* @see app/Http/Controllers/Public/OrganizationController.php:25
+* @route '/legality'
+*/
+legality.url = (options?: RouteQueryOptions) => {
+    return legality.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::legality
+* @see app/Http/Controllers/Public/OrganizationController.php:25
+* @route '/legality'
+*/
+legality.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: legality.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::legality
+* @see app/Http/Controllers/Public/OrganizationController.php:25
+* @route '/legality'
+*/
+legality.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: legality.url(options),
+    method: 'head',
+})
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::legality
+* @see app/Http/Controllers/Public/OrganizationController.php:25
+* @route '/legality'
+*/
+const legalityForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: legality.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::legality
+* @see app/Http/Controllers/Public/OrganizationController.php:25
+* @route '/legality'
+*/
+legalityForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: legality.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\Public\OrganizationController::legality
+* @see app/Http/Controllers/Public/OrganizationController.php:25
+* @route '/legality'
+*/
+legalityForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: legality.url({
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'HEAD',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'get',
+})
+
+legality.form = legalityForm
 
 /**
 * @see \App\Http\Controllers\Auth\LoginController::login
