@@ -26,6 +26,8 @@ class DatabaseSeeder extends Seeder
 
             // 4. Navigation
             MenuSeeder::class,
+
+            CmsPageSeeder::class,
         ]);
     }
 }

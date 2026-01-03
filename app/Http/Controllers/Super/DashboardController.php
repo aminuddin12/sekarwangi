@@ -3,33 +3,85 @@
 namespace App\Http\Controllers\Super;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Models\SystemActivityLog;
-use App\Models\FinanceRecord;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Inertia\Response;
+
+// Import Widgets
+use App\Widgets\UserCount;
+use App\Widgets\SummaryCount;
+use App\Widgets\VisitorCount;
+use App\Widgets\VisitorChart;
+use App\Widgets\VisitorActivity;
+use App\Widgets\ScheduleIncoming;
+use App\Widgets\ScheduleFull;
+use App\Widgets\SystemHealth;
 
 class DashboardController extends Controller
 {
-    public function index()
+    /**
+     * Menampilkan dashboard modular berdasarkan permission user.
+     */
+    public function index(): Response
     {
-        // Mengambil statistik ringkas untuk widget dashboard
-        $stats = [
-            'total_users' => User::count(),
-            'active_users' => User::where('status', 'active')->count(),
-            'system_errors' => SystemActivityLog::where('severity', 'critical')->whereDate('created_at', today())->count(),
-            // Contoh statistik finance jika ada data
-            'total_revenue' => FinanceRecord::where('transaction_type', 'income')->sum('amount'),
-        ];
+        $user = Auth::user();
 
-        // Mengambil log aktivitas terbaru untuk dipantau
-        $recentLogs = SystemActivityLog::with('causer')
-            ->latest()
-            ->take(5)
-            ->get();
+        $smallWidgets = [];
+        $largeWidgets = [];
 
-        return Inertia::render('Super/Dashboard', [
-            'stats' => $stats,
-            'recentLogs' => $recentLogs
+        // --- GROUP 1: SMALL WIDGETS (Stats Cards) ---
+
+        // 1. User Stats (HR & Admin)
+        if ($user->can('view-users') || $user->hasRole('Super Admin')) {
+            $smallWidgets[] = (new UserCount)->build();
+        }
+
+        // 2. Finance / Summary (Finance & Admin)
+        if ($user->can('view-finance-dashboard') || $user->hasRole('Super Admin')) {
+            $smallWidgets[] = (new SummaryCount)->build();
+        }
+
+        // 3. Visitor Count (Marketing & Admin)
+        if ($user->can('view-analytics-dashboard') || $user->hasRole('Super Admin')) {
+            $smallWidgets[] = (new VisitorCount)->build();
+        }
+
+        // 4. Monthly Schedule Count (General User)
+        if ($user->can('view-schedules') || $user->hasRole('Super Admin')) {
+            $smallWidgets[] = (new ScheduleFull)->build();
+        }
+
+
+        // --- GROUP 2: LARGE WIDGETS (Charts, Tables, Lists) ---
+
+        // 1. Visitor Chart (Marketing & Admin)
+        if ($user->can('view-analytics-dashboard') || $user->hasRole('Super Admin')) {
+            $largeWidgets[] = (new VisitorChart)->build();
+        }
+
+        // 2. Schedule Incoming List (General User)
+        if ($user->can('view-schedules') || $user->hasRole('Super Admin')) {
+            $largeWidgets[] = (new ScheduleIncoming)->build();
+        }
+
+        // 3. Visitor Activity Log (Marketing & Admin)
+        if ($user->can('view-analytics-dashboard') || $user->hasRole('Super Admin')) {
+            $largeWidgets[] = (new VisitorActivity)->build();
+        }
+
+        // 4. System Health Chart (IT / Super Admin)
+        if ($user->can('view-system-dashboard') || $user->hasRole('Super Admin')) {
+            $largeWidgets[] = (new SystemHealth)->build();
+        }
+
+        // Urutkan widget berdasarkan 'order'
+        usort($smallWidgets, fn($a, $b) => $a['order'] <=> $b['order']);
+        usort($largeWidgets, fn($a, $b) => $a['order'] <=> $b['order']);
+
+        return Inertia::render('dashboard', [
+            'smallWidgets' => $smallWidgets,
+            'largeWidgets' => $largeWidgets,
+            'userPermissions' => $user->getAllPermissions()->pluck('name'),
         ]);
     }
 }

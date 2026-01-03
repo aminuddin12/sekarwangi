@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import * as Icons from 'lucide-react';
-import AppLogoIcon from '@/components/app-logo-icon';
 import { Menu, X, ChevronDown } from 'lucide-react';
+import AppLogoFull from '../app-logo-full';
 
 interface MenuItem {
     id: number;
@@ -58,17 +58,9 @@ export default function Navbar({ menu }: NavbarProps) {
                 <Link href="/" className="flex items-center gap-3 group">
                     <div className="transition-transform duration-300 group-hover:scale-105">
                         {/* Menggunakan AppLogoIcon langsung tanpa background biru */}
-                         <div className="w-10 h-10 flex items-center justify-center">
-                            <AppLogoIcon className="w-full h-full" />
+                         <div className="w-full h-10 flex items-center justify-center">
+                            <AppLogoFull className="w-full h-full fill-current" />
                         </div>
-                    </div>
-                    <div className="flex flex-col">
-                        <span className="text-xl font-bold tracking-tight text-neutral-800 dark:text-[#cb9833] leading-none font-serif">
-                            Sekar Wangi
-                        </span>
-                        <span className="text-[10px] font-semibold text-[#cb9833] dark:text-neutral-400 uppercase tracking-[0.2em] mt-1">
-                            Enterprise
-                        </span>
                     </div>
                 </Link>
 

@@ -4,6 +4,7 @@ use App\Http\Controllers\Public\HomeController;
 use App\Http\Controllers\Public\OrganizationController;
 use App\Http\Controllers\Public\ProductController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Public\DynamicPageController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/product', [ProductController::class, 'index'])->name('products.index');
@@ -14,3 +15,5 @@ Route::get('/vision-mission', [OrganizationController::class, 'visionMission'])-
 Route::get('/organization', [OrganizationController::class, 'organization'])->name('organization');
 Route::get('/legality', [OrganizationController::class, 'legality'])->name('legality');
 
+// Route::get('/', [DynamicPageController::class, 'show'])->defaults('slug', 'home')->name('home');
+// Route::get('/{slug}', [DynamicPageController::class, 'show'])->where('slug', '[a-zA-Z0-9\-_]+')->name('page.dynamic');

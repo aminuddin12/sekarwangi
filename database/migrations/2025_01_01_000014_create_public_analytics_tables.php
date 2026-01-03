@@ -133,8 +133,7 @@ return new class extends Migration
             $table->text('url')->nullable(); // Halaman yang dikunjungi
             $table->text('referer')->nullable(); // Datang dari mana
             $table->string('method')->nullable(); // GET
-
-            $table->timestamp('visited_at')->useCurrent();
+            $table->timestamps();
         });
 
         // 8. Link Click Logs (Detail Klik Marketing Link)

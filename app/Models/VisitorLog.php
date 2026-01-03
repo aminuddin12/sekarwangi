@@ -24,7 +24,6 @@ class VisitorLog extends Model
         'url',
         'referer',
         'method',
-        'visited_at',
     ];
 
     protected $casts = [
